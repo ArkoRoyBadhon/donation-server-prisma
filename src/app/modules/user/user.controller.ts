@@ -5,6 +5,7 @@ import sendResponse from '../../../shared/sendResponse'
 import { userService } from './user.service'
 import config from '../../../config'
 import bcrypt from 'bcrypt'
+import { ILoginAllUserResponse } from '../../../interfaces/auth'
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body
@@ -23,6 +24,26 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const loginUser = catchAsync(async (req: Request, res: Response) => {
+  const { ...loginData } = req.body
+  const result = await userService.loginUser(loginData)
+  const { refreshToken, accessToken } = result
+
+  const cookieOptions = {
+    secure: config.env === 'production',
+    httpOnly: true,
+  }
+
+  res.cookie('refreshToken', refreshToken, cookieOptions)
+
+  sendResponse<ILoginAllUserResponse>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User logged In successfully !',
+    data: { accessToken },
+  })
+})
+
 const getSingleUserById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id
   const result = await userService.getSingleUserById(id)
@@ -37,5 +58,6 @@ const getSingleUserById = catchAsync(async (req: Request, res: Response) => {
 
 export const userController = {
   createUser,
+  loginUser,
   getSingleUserById,
 }
