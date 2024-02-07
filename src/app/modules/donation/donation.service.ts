@@ -22,8 +22,29 @@ const getSingleDonation = async (id: string): Promise<Donation | null> => {
   return result
 }
 
+const updateSingleDonation = async (
+  id: string,
+  payload: Partial<Donation>,
+): Promise<Donation | null> => {
+  // const result = await prisma.donation.findUnique({
+  //   where: {
+  //     id,
+  //   },
+  // })
+
+  const result = await prisma.donation.update({
+    where: {
+      id,
+    },
+    data: payload,
+  })
+
+  return result
+}
+
 export const donationService = {
   createDonation,
   getAllDonation,
   getSingleDonation,
+  updateSingleDonation,
 }

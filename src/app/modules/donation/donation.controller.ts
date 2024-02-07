@@ -39,8 +39,22 @@ const getSingleDonation = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const updateSingleDonation = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id
+  const payload = req.body
+  const result = await donationService.updateSingleDonation(id, payload)
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Donation updated successfully!',
+    data: result,
+  })
+})
+
 export const donationController = {
   createDonation,
   getAllDonation,
   getSingleDonation,
+  updateSingleDonation,
 }
