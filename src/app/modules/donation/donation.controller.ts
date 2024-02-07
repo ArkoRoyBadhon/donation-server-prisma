@@ -77,6 +77,21 @@ const getAllDonationExecute = catchAsync(
   },
 )
 
+const getSingleUserDonationExecute = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id
+
+    const result = await donationService.getSingleUserDonationExecute(id)
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'All Donation retrieved successfully!',
+      data: result,
+    })
+  },
+)
+
 export const donationController = {
   createDonation,
   getAllDonation,
@@ -84,4 +99,5 @@ export const donationController = {
   updateSingleDonation,
   donationExecute,
   getAllDonationExecute,
+  getSingleUserDonationExecute,
 }

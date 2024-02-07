@@ -10,5 +10,9 @@ router.patch('/donation/update/:id', donationController.updateSingleDonation)
 
 router.post('/donation/user-donate', donationController.donationExecute)
 router.get('/donation/user-donate', donationController.getAllDonationExecute)
+router.get(
+  '/donation/user-donate/:id',
+  donationController.getSingleUserDonationExecute,
+)
 
 export const donationRoutes = router

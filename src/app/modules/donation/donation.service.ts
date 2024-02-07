@@ -61,11 +61,29 @@ const getAllDonationExecute = async (): Promise<DonationDone[] | null> => {
   return result
 }
 
+const getSingleUserDonationExecute = async (
+  id: string,
+): Promise<DonationDone[] | null> => {
+  const result = await prisma.donationDone.findMany({
+    where: {
+      userId: id,
+    },
+    include: {
+      userInfo: true,
+      donationInfo: true,
+    },
+  })
+
+  return result
+}
+
 export const donationService = {
   createDonation,
   getAllDonation,
   getSingleDonation,
   updateSingleDonation,
+  // user give donations
   donationExecute,
   getAllDonationExecute,
+  getSingleUserDonationExecute,
 }
