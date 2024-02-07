@@ -1,4 +1,4 @@
-import { Donation } from '@prisma/client'
+import { Donation, DonationDone } from '@prisma/client'
 import prisma from '../../../shared/prisma'
 
 const createDonation = async (data: Donation): Promise<Donation> => {
@@ -42,9 +42,18 @@ const updateSingleDonation = async (
   return result
 }
 
+const donationExecute = async (data: DonationDone): Promise<DonationDone> => {
+  const result = await prisma.donationDone.create({
+    data,
+  })
+
+  return result
+}
+
 export const donationService = {
   createDonation,
   getAllDonation,
   getSingleDonation,
   updateSingleDonation,
+  donationExecute,
 }

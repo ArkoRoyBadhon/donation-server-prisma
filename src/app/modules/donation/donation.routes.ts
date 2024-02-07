@@ -8,4 +8,6 @@ router.get('/donation/get-all', donationController.getAllDonation)
 router.get('/donation/get-single/:id', donationController.getSingleDonation)
 router.patch('/donation/update/:id', donationController.updateSingleDonation)
 
+router.post('/donation/done-donate', donationController.donationExecute)
+
 export const donationRoutes = router

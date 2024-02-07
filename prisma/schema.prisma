@@ -11,19 +11,34 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-  role     String @default("user")
+  id           String         @id @default(uuid())
+  name         String
+  email        String         @unique
+  password     String
+  role         String         @default("user")
+  DonationDone DonationDone[]
 }
 
 model Donation {
-  id          String @id @default(uuid())
-  title       String
-  img         String
-  category    String
-  subCategory String
-  description String
-  donation    Int
+  id           String         @id @default(uuid())
+  title        String
+  img          String
+  category     String
+  subCategory  String
+  description  String
+  donation     Int
+  DonationDone DonationDone[]
+}
+
+model DonationDone {
+  id String @id @default(uuid())
+
+  userInfo User   @relation(fields: [userId], references: [id])
+  userId   String
+
+  donationInfo Donation @relation(fields: [donationId], references: [id])
+  donationId   String
+
+  amount Int
+  createdAt DateTime @default(now())
 }
