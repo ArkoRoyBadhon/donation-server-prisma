@@ -16,6 +16,18 @@ const createDonation = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getAllDonation = catchAsync(async (req: Request, res: Response) => {
+  const result = await donationService.getAllDonation()
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All Donation Retrieved successfully!',
+    data: result,
+  })
+})
+
 export const donationController = {
   createDonation,
+  getAllDonation,
 }

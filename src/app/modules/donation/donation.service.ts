@@ -6,6 +6,13 @@ const createDonation = async (data: Donation): Promise<Donation> => {
   return result
 }
 
+const getAllDonation = async (): Promise<Donation[] | null> => {
+  const result = await prisma.donation.findMany({})
+
+  return result
+}
+
 export const donationService = {
   createDonation,
+  getAllDonation,
 }
