@@ -17,3 +17,14 @@ model User {
   password String
   role     String @default("user")
 }
+
+model Donation {
+  id String @id @default(uuid())
+  title String
+  category String
+  subCategory String
+  description String
+  donation Int
+}
+
+
