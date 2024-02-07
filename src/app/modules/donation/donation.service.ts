@@ -12,7 +12,18 @@ const getAllDonation = async (): Promise<Donation[] | null> => {
   return result
 }
 
+const getSingleDonation = async (id: string): Promise<Donation | null> => {
+  const result = await prisma.donation.findUnique({
+    where: {
+      id,
+    },
+  })
+
+  return result
+}
+
 export const donationService = {
   createDonation,
   getAllDonation,
+  getSingleDonation,
 }
