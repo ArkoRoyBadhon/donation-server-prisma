@@ -26,7 +26,6 @@ model Donation {
   category     String
   subCategory  String
   description  String
-  donation     Int
   DonationDone DonationDone[]
 }
 

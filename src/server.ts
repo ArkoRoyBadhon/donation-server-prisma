@@ -5,7 +5,7 @@ import { Server } from 'http'
 
 let server: Server
 
-async function boostrap() {
+async function StartServer() {
   try {
     server = app.listen(config.port, () => {
       console.log(`Application app listening on port ${config.port}`)
@@ -26,4 +26,4 @@ async function boostrap() {
   })
 }
 
-boostrap()
+StartServer()
