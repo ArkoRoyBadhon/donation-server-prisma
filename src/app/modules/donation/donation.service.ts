@@ -6,8 +6,16 @@ const createDonation = async (data: Donation): Promise<Donation> => {
   return result
 }
 
-const getAllDonation = async (): Promise<Donation[] | null> => {
-  const result = await prisma.donation.findMany({})
+const getAllDonation = async (
+  searchTerm: string,
+): Promise<Donation[] | null> => {
+  const result = await prisma.donation.findMany({
+    where: {
+      category: {
+        contains: searchTerm,
+      },
+    },
+  })
 
   return result
 }

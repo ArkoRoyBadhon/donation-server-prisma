@@ -17,7 +17,8 @@ const createDonation = catchAsync(async (req: Request, res: Response) => {
 })
 
 const getAllDonation = catchAsync(async (req: Request, res: Response) => {
-  const result = await donationService.getAllDonation()
+  const { searchTerm } = req.query
+  const result = await donationService.getAllDonation(searchTerm as string)
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
