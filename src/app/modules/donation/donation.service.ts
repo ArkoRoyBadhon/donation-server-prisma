@@ -77,6 +77,58 @@ const getSingleUserDonationExecute = async (
   return result
 }
 
+const donationCalculations = async () => {
+  const result = await prisma.donationDone.findMany({
+    include: {
+      userInfo: true,
+      donationInfo: true,
+    },
+  })
+
+  // category
+  // food, education, clothing, health, religion
+
+  let totalDonationAmount = 0
+  let foodAmount = 0
+  let educationAmount = 0
+  let clothingAmount = 0
+  let healthAmount = 0
+  let religionAmount = 0
+
+  result.forEach(donation => {
+    totalDonationAmount += donation.amount
+    if (donation?.donationInfo?.category === 'food') {
+      foodAmount += donation.amount
+    }
+    if (donation?.donationInfo?.category === 'education') {
+      educationAmount += donation.amount
+    }
+    if (donation?.donationInfo?.category === 'clothing') {
+      clothingAmount += donation.amount
+    }
+    if (donation?.donationInfo?.category === 'health') {
+      healthAmount += donation.amount
+    }
+    if (donation?.donationInfo?.category === 'religion') {
+      religionAmount += donation.amount
+    }
+  })
+
+  const totalDonation = result.length
+
+  const output = {
+    totalDonation,
+    totalDonationAmount,
+    foodAmount,
+    educationAmount,
+    clothingAmount,
+    healthAmount,
+    religionAmount,
+  }
+
+  return output
+}
+
 export const donationService = {
   createDonation,
   getAllDonation,
@@ -86,4 +138,5 @@ export const donationService = {
   donationExecute,
   getAllDonationExecute,
   getSingleUserDonationExecute,
+  donationCalculations,
 }

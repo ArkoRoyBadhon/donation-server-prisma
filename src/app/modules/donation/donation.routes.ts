@@ -1,18 +1,41 @@
 import express from 'express'
 import { donationController } from './donation.controller'
+import authPermission from '../../middlewares/auth'
+import { ENUM_USER_ROLE } from '../../../enums/users'
 
 const router = express.Router()
 
-router.post('/donation/create', donationController.createDonation)
+router.post(
+  '/donation/create',
+  authPermission(ENUM_USER_ROLE.ADMIN),
+  donationController.createDonation,
+)
 router.get('/donation/get-all', donationController.getAllDonation)
 router.get('/donation/get-single/:id', donationController.getSingleDonation)
-router.patch('/donation/update/:id', donationController.updateSingleDonation)
+router.patch(
+  '/donation/update/:id',
+  authPermission(ENUM_USER_ROLE.ADMIN),
+  donationController.updateSingleDonation,
+)
 
-router.post('/donation/user-donate', donationController.donationExecute)
-router.get('/donation/user-donate', donationController.getAllDonationExecute)
+router.post(
+  '/donation/user-donate',
+  authPermission(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+  donationController.donationExecute,
+)
+router.get(
+  '/donation/user-donate',
+  authPermission(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+  donationController.getAllDonationExecute,
+)
 router.get(
   '/donation/user-donate/:id',
   donationController.getSingleUserDonationExecute,
+)
+router.get(
+  '/donation/calculation',
+  authPermission(ENUM_USER_ROLE.ADMIN),
+  donationController.donationCalculations,
 )
 
 export const donationRoutes = router
