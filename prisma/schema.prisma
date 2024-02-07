@@ -19,12 +19,11 @@ model User {
 }
 
 model Donation {
-  id String @id @default(uuid())
-  title String
-  category String
+  id          String @id @default(uuid())
+  title       String
+  img         String
+  category    String
   subCategory String
   description String
-  donation Int
+  donation    Int
 }
-
-
