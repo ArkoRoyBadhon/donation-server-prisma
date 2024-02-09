@@ -18,6 +18,7 @@ const createDonation = catchAsync(async (req: Request, res: Response) => {
 
 const getAllDonation = catchAsync(async (req: Request, res: Response) => {
   const { searchTerm } = req.query
+
   const result = await donationService.getAllDonation(searchTerm as string)
 
   sendResponse(res, {
@@ -49,6 +50,18 @@ const updateSingleDonation = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Donation updated successfully!',
+    data: result,
+  })
+})
+
+const deleteSingleDonation = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id
+  const result = await donationService.deleteSingleDonation(id)
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Donation deleted successfully!',
     data: result,
   })
 })
@@ -109,6 +122,7 @@ export const donationController = {
   getAllDonation,
   getSingleDonation,
   updateSingleDonation,
+  deleteSingleDonation,
   donationExecute,
   getAllDonationExecute,
   getSingleUserDonationExecute,

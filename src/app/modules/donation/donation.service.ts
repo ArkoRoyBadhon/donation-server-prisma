@@ -34,17 +34,35 @@ const updateSingleDonation = async (
   id: string,
   payload: Partial<Donation>,
 ): Promise<Donation | null> => {
-  // const result = await prisma.donation.findUnique({
-  //   where: {
-  //     id,
-  //   },
-  // })
-
   const result = await prisma.donation.update({
     where: {
       id,
     },
     data: payload,
+  })
+
+  return result
+}
+
+const deleteSingleDonation = async (id: string): Promise<Donation | null> => {
+  const donationHistory = await prisma.donationDone.findMany({
+    where: {
+      donationId: id,
+    },
+  })
+
+  if (donationHistory) {
+    await prisma.donationDone.deleteMany({
+      where: {
+        donationId: id,
+      },
+    })
+  }
+
+  const result = await prisma.donation.delete({
+    where: {
+      id,
+    },
   })
 
   return result
@@ -142,6 +160,7 @@ export const donationService = {
   getAllDonation,
   getSingleDonation,
   updateSingleDonation,
+  deleteSingleDonation,
   // user give donations
   donationExecute,
   getAllDonationExecute,

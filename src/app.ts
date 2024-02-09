@@ -6,7 +6,23 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler'
 
 const app: Application = express()
 
-app.use(cors())
+const corsOptions = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  origin: (origin: any, callback: any) => {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://donation-client-opal.vercel.app',
+    ]
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS test'))
+    }
+  },
+  methods: 'GET,HEAD,POST,PUT,PATCH,DELETE',
+  credentials: true,
+}
+;+app.use(cors(corsOptions))
 
 // parser
 app.use(express.json())
