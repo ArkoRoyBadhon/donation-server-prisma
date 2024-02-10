@@ -3,6 +3,10 @@ import sendResponse from '../../../shared/sendResponse'
 import { donationService } from './donation.service'
 import catchAsync from '../../../shared/catchAsync'
 import { Request, Response } from 'express'
+import ApiError from '../../../errors/ApiError'
+import { jwtHelpers } from '../../../helpers/jwtHelpers'
+import config from '../../../config'
+import { Secret } from 'jsonwebtoken'
 
 const createDonation = catchAsync(async (req: Request, res: Response) => {
   const data = req.body
@@ -68,6 +72,7 @@ const deleteSingleDonation = catchAsync(async (req: Request, res: Response) => {
 
 const donationExecute = catchAsync(async (req: Request, res: Response) => {
   const data = req.body
+
   const result = await donationService.donationExecute(data)
 
   sendResponse(res, {
@@ -93,9 +98,16 @@ const getAllDonationExecute = catchAsync(
 
 const getSingleUserDonationExecute = catchAsync(
   async (req: Request, res: Response) => {
-    const id = req.params.id
+    const token = req.headers.authorization
+    if (!token) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized')
+    }
+    let verifiedUser = null
 
-    const result = await donationService.getSingleUserDonationExecute(id)
+    verifiedUser = jwtHelpers.verifyToken(token, config.jwt.secret as Secret)
+    const { userId } = verifiedUser
+
+    const result = await donationService.getSingleUserDonationExecute(userId)
 
     sendResponse(res, {
       statusCode: httpStatus.OK,

@@ -12,11 +12,14 @@ import ApiError from '../../../errors/ApiError'
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body
-  const hashPassword = await bcrypt.hash(
-    payload.password,
-    Number(config.bycrypt_salt_rounds),
-  )
-  payload.password = hashPassword
+
+  if (payload.password) {
+    const hashPassword = await bcrypt.hash(
+      payload?.password,
+      Number(config.bycrypt_salt_rounds),
+    )
+    payload.password = hashPassword
+  }
   const result = await userService.createUser(payload)
 
   sendResponse(res, {
@@ -59,7 +62,6 @@ const getSingleUserById = catchAsync(async (req: Request, res: Response) => {
 
   verifiedUser = jwtHelpers.verifyToken(token, config.jwt.secret as Secret)
   const { userId } = verifiedUser
-  console.log('AAA', userId)
 
   const result = await userService.getSingleUserById(userId)
 

@@ -9,6 +9,16 @@ import { Secret } from 'jsonwebtoken'
 import config from '../../../config'
 
 const createUser = async (data: User): Promise<Partial<User | null>> => {
+  const exist = await prisma.user.findUnique({
+    where: {
+      email: data?.email,
+    },
+  })
+
+  if (exist) {
+    throw new ApiError(httpStatus.NOT_IMPLEMENTED, 'User already exists')
+  }
+
   const result = await prisma.user.create({
     data,
   })
@@ -33,10 +43,10 @@ const loginUser = async (
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist')
   }
-  // console.log('Password', password)
-  // console.log('database Password', isUserExist?.password)
-  // const dd = await bcrypt.compare(password, isUserExist?.password)
-  // console.log('DD', dd)
+
+  if (!isUserExist.password) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Google user')
+  }
 
   if (
     isUserExist.password &&

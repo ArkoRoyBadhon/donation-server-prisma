@@ -90,6 +90,8 @@ const getAllDonationExecute = async (): Promise<DonationDone[] | null> => {
 const getSingleUserDonationExecute = async (
   id: string,
 ): Promise<DonationDone[] | null> => {
+  console.log('id', id)
+
   const result = await prisma.donationDone.findMany({
     where: {
       userId: id,

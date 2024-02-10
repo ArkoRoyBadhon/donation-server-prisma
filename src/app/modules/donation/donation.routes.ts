@@ -15,12 +15,12 @@ router.get('/donation/get-all', donationController.getAllDonation)
 router.get('/donation/get-single/:id', donationController.getSingleDonation)
 router.patch(
   '/donation/update/:id',
-  // authPermission(ENUM_USER_ROLE.ADMIN),
+  authPermission(ENUM_USER_ROLE.ADMIN),
   donationController.updateSingleDonation,
 )
 router.delete(
   '/donation/delete/:id',
-  // authPermission(ENUM_USER_ROLE.ADMIN),
+  authPermission(ENUM_USER_ROLE.ADMIN),
   donationController.deleteSingleDonation,
 )
 
@@ -36,12 +36,13 @@ router.get(
   donationController.getAllDonationExecute,
 )
 router.get(
-  '/donation/user-donate/:id',
+  '/donation/user-donate',
   donationController.getSingleUserDonationExecute,
 )
+
 router.get(
   '/donation/calculation',
-  // authPermission(ENUM_USER_ROLE.ADMIN),
+  authPermission(ENUM_USER_ROLE.ADMIN),
   donationController.donationCalculations,
 )
 
