@@ -29,6 +29,17 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   })
 })
+const updateUser = catchAsync(async (req: Request, res: Response) => {
+  const payload = req.body
+  const result = await userService.updateUser(payload)
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User created successfully!',
+    data: result,
+  })
+})
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body
@@ -73,8 +84,21 @@ const getSingleUserById = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getAllUser = catchAsync(async (req: Request, res: Response) => {
+  const result = await userService.getAllUser()
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All User Get successfully!',
+    data: result,
+  })
+})
+
 export const userController = {
   createUser,
+  updateUser,
   loginUser,
   getSingleUserById,
+  getAllUser,
 }

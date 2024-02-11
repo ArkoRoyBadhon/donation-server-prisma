@@ -28,6 +28,28 @@ const createUser = async (data: User): Promise<Partial<User | null>> => {
 
   return others
 }
+const updateUser = async (payload: User): Promise<Partial<User | null>> => {
+  const { id, ...data } = payload
+  const exist = await prisma.user.update({
+    where: {
+      id,
+    },
+    data,
+  })
+
+  if (exist) {
+    throw new ApiError(httpStatus.NOT_IMPLEMENTED, 'User already exists')
+  }
+
+  const result = await prisma.user.create({
+    data,
+  })
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { password, ...others } = result
+
+  return others
+}
 
 const loginUser = async (
   payload: ILoginAllUser,
@@ -90,8 +112,20 @@ const getSingleUserById = async (id: string): Promise<User | any> => {
   }
 }
 
+const getAllUser = async (): Promise<User[] | null> => {
+  try {
+    const result = await prisma.user.findMany({})
+
+    return result
+  } catch (error) {
+    throw new ApiError(httpStatus.SERVICE_UNAVAILABLE, 'Something went wrong')
+  }
+}
+
 export const userService = {
   createUser,
+  updateUser,
   loginUser,
   getSingleUserById,
+  getAllUser,
 }
