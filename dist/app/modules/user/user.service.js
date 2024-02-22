@@ -46,6 +46,24 @@ const createUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const { password } = result, others = __rest(result, ["password"]);
     return others;
 });
+const updateUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = payload, data = __rest(payload, ["id"]);
+    const exist = yield prisma_1.default.user.update({
+        where: {
+            id,
+        },
+        data,
+    });
+    if (exist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_IMPLEMENTED, 'User already exists');
+    }
+    const result = yield prisma_1.default.user.create({
+        data,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password } = result, others = __rest(result, ["password"]);
+    return others;
+});
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = payload;
     const isUserExist = yield prisma_1.default.user.findUnique({
@@ -85,8 +103,19 @@ const getSingleUserById = (id) => __awaiter(void 0, void 0, void 0, function* ()
         throw new ApiError_1.default(http_status_1.default.SERVICE_UNAVAILABLE, 'Something went wrong');
     }
 });
+const getAllUser = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield prisma_1.default.user.findMany({});
+        return result;
+    }
+    catch (error) {
+        throw new ApiError_1.default(http_status_1.default.SERVICE_UNAVAILABLE, 'Something went wrong');
+    }
+});
 exports.userService = {
     createUser,
+    updateUser,
     loginUser,
     getSingleUserById,
+    getAllUser,
 };

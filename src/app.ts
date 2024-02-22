@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import express, { Application, NextFunction, Request, Response } from 'express'
 import cors from 'cors'
 import routes from './app/routes'
 import httpStatus from 'http-status'
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
+import { sslService } from './app/modules/ssl/ssl.service'
 
 const app: Application = express()
 
@@ -11,18 +13,20 @@ const corsOptions = {
   origin: (origin: any, callback: any) => {
     const allowedOrigins = [
       'http://localhost:3000',
+      '*',
       'https://donation-client-opal.vercel.app',
     ]
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS test'))
+      // callback(new Error('Not allowed by CORS test'))
     }
   },
   methods: 'GET,HEAD,POST,PUT,PATCH,DELETE',
   credentials: true,
 }
-;+app.use(cors(corsOptions))
+app.use(cors(corsOptions))
+// app.use(cors());
 
 // parser
 app.use(express.json())

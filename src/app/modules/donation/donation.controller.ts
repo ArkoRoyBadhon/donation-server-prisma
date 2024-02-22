@@ -107,6 +107,8 @@ const getSingleUserDonationExecute = catchAsync(
     verifiedUser = jwtHelpers.verifyToken(token, config.jwt.secret as Secret)
     const { userId } = verifiedUser
 
+    console.log('User idd', userId)
+
     const result = await donationService.getSingleUserDonationExecute(userId)
 
     sendResponse(res, {

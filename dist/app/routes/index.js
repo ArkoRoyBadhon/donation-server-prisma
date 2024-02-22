@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const user_routes_1 = require("../modules/user/user.routes");
 const donation_routes_1 = require("../modules/donation/donation.routes");
+const payment_routes_1 = require("../modules/payment/payment.routes");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -15,6 +16,10 @@ const moduleRoutes = [
     {
         path: '/',
         route: donation_routes_1.donationRoutes,
+    },
+    {
+        path: '/payment',
+        route: payment_routes_1.paymentRoutes,
     },
 ];
 moduleRoutes.forEach(route => {

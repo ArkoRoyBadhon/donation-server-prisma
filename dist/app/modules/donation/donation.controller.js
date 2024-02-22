@@ -98,6 +98,7 @@ const getSingleUserDonationExecute = (0, catchAsync_1.default)((req, res) => __a
     let verifiedUser = null;
     verifiedUser = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.secret);
     const { userId } = verifiedUser;
+    console.log("User idd", userId);
     const result = yield donation_service_1.donationService.getSingleUserDonationExecute(userId);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

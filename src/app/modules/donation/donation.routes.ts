@@ -27,7 +27,7 @@ router.delete(
 // user donation
 router.post(
   '/donation/user-donate',
-  authPermission(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+  // authPermission(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
   donationController.donationExecute,
 )
 router.get(
@@ -36,7 +36,7 @@ router.get(
   donationController.getAllDonationExecute,
 )
 router.get(
-  '/donation/user-donate',
+  '/donation/single-user-donate',
   donationController.getSingleUserDonationExecute,
 )
 

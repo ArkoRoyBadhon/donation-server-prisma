@@ -43,7 +43,6 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body
-  console.log('user', loginData)
 
   const result = await userService.loginUser(loginData)
   const { refreshToken, accessToken } = result
